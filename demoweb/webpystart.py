@@ -1,11 +1,8 @@
 #!/usr/bin/env python
-
 import web
+import actions
 
-urls = (
-		'/', 'actions.index.main'
-)
-
+urls = actions.urls
 
 if(__name__ != "__main__"):
 	app = web.application(urls, globals())  
