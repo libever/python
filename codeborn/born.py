@@ -31,5 +31,8 @@ def bornOneCodeFile(tplName,jsonFileName,aimFile):
 	f.writelines(realContent)
 	f.close()
 
-if(__name__ == "__main__"):
+def bornTest():
 	bornOneCodeFile('class.tpl','replace.json',"class.c")
+
+if(__name__ == "__main__"):
+	bornTest()
