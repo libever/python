@@ -7,4 +7,3 @@ from util import render,getLayoutRender
 class main:
 	def GET(self):
 		return getLayoutRender().index("Hello world.")
-		#return getLayoutRender()
