@@ -1,12 +1,18 @@
 $def with(content)
 $ staticurl = "http://localhost:8080/static"
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
 		<link rel="stylesheet" href="$staticurl/css/bootstrap.min.css">
 		<script src="$staticurl/js/jquery.min.js"></script>
 		<script src="$staticurl/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-	$:content
-</body>
+		$:content
+	</body>
 </html>

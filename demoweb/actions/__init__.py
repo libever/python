@@ -3,8 +3,8 @@
 urls = []
 
 def add_action(urlStr,actionName):
-	urls.append(urlStr)
-	urls.append("actions." + actionName + ".main")
+	actionName = "actions." + actionName + ".main"
+	urls.extend([urlStr,actionName])
 
 add_action('/','index')
 add_action('/login','login')
