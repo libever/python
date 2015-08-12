@@ -12,8 +12,11 @@ def readFile(fname):
 
 def jsonObj(jsonFile):
 	jsonContent = readFile(jsonFile)
-	robj = json.loads(jsonContent,strict = False)
-	return robj 
+	try:
+		robj = json.loads(jsonContent,strict = False)
+		return robj 
+	except :
+		return {}
 
 def renderJson(tplContent,jsonObj):
 	return tplContent % jsonObj
