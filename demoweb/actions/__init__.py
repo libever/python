@@ -8,3 +8,4 @@ def add_action(urlStr,actionName):
 
 add_action('/','index')
 add_action('/login','login')
+add_action('/livelong','livelong')
