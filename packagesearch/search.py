@@ -14,7 +14,11 @@ if __name__ == "__main__"  and len(sys.argv) == 2:
 	doc = pq.PyQuery(content)
 	panels = doc.find(".repo-list-item")
 	for panelID in panels :
+		print "=*="  * 30
 		links = panels(panelID).find("a")
 		href = pq.PyQuery(links[0]).attr("href")
 		href = href.split("/stargazers")[0]
 		print "https://github.com/%s.git" % (href)
+		description = panels(panelID).find(".repo-list-description").html()
+		if None != description :
+			print description.strip()
