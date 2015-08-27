@@ -5,30 +5,14 @@ import sys
 import re 
 import requests
 import pyquery
+import redis
+import proxyhandler
 
-def writeItem(item):
-	lines = []
-	lines.append(item["ip"] + ":" + item["port"] + "\n")
-	m = open("proxylist.txt","a+")
-	m.writelines(lines)
-	m.close()
-
-def getProxyList(index):
-	proxyList = []
-	url = "http://www.kuaidaili.com/proxylist/%d/" % (index)
-	response = requests.get(url)
-	content = response.text.encode("UTF-8")	
-	doc = pyquery.PyQuery(content)
-	proxys = doc.find("#list").find("tr")
-	for proxyId in proxys:
-		ip = proxys(proxyId).find("td").eq(0).text()
-		port = proxys(proxyId).find("td").eq(1).text()
-		t = proxys(proxyId).find("td").eq(3).text()
-		proxyList.append({"ip":ip,"port":port,"type":t})
-	return proxyList
+def saveItem(item):
+	r = redis.Redis(host="localhost",port=6379,db=1)
+	r.sadd("httpproxy",item["ip"] + ":" + item["port"])
 
 def testProxy(proxyItem):
-	print proxyItem
 	ip = proxyItem["ip"]
 	port = proxyItem["port"]
 	t = proxyItem["type"]
@@ -38,19 +22,24 @@ def testProxy(proxyItem):
 	}
 	try :
 		r = session.get("http://anyapi.sinaapp.com/ip.php",timeout=1)
-		writeItem(proxyItem)
-		print "OK"
+		if r.text == ip :
+			return True
 	except Exception,e:
-		print e
-		pass
+		return False
 
-def simpleTest():
-	for index  in range(1,10):
-		print index
-		proxyList = getProxyList(index)
-		for k,item in enumerate(proxyList) :
-			testProxy(item)
+def doFindProxyListHandler():
+	handlers = proxyhandler.handlers
+	for m in handlers:
+		for plist in m.__call__():
+			if isinstance(plist,list):
+				for item in plist:
+					doProxyItem(item)
+			else :
+				doProxyItem(plist)
+
+def doProxyItem(item):
+	if testProxy(item):
+		saveItem(item)
 
 if __name__ == "__main__":
-	argc = len(sys.argv)
-	simpleTest()
+	doFindProxyListHandler()
