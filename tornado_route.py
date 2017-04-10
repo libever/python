@@ -7,6 +7,7 @@ app = {}
 def route(view):
     global app
     url = view.URL
+    #add_handlers的第一个参数是对应的域名
     app.add_handlers('.*$',[(r'%s' % (url), view)])
 
 # set tornado web application instance .
