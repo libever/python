@@ -13,7 +13,7 @@ class config :
     result          = False
     url             = 'https://www.baidu.com/s?ie=UTF-8&wd=httplib'
     method          = 'get' # 'post'
-    headers         = {}
+    headers         = {'Content-type': 'application/x-www-form-urlencoded'}
     post_data       = ""
 
 class Result:
