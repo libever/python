@@ -10,6 +10,9 @@ class Nosql:
         self.port = port
         self.es = Elasticsearch([{'host':ip,'port':port}])
 
+    def initDb(self,dbname):
+        self.es.indices.create(dbname,ignore=[400])
+
     def selectDb(self,dbname,tableName):
         self.dbname = dbname
         self.tableName = tableName
@@ -52,6 +55,7 @@ if __name__ == "__main__":
     import json
     import pdb
     n = Nosql('10.210.12.18',9200)
+    n.initDb("byworld")
     n.selectDb("byworld","sample")
 
     #for i in range(100,200):
